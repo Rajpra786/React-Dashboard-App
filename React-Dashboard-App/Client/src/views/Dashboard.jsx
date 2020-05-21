@@ -8,7 +8,7 @@ import React, { Component } from "react";
 import { Grid, Row, Button, Table } from "react-bootstrap";
 import Popup from "reactjs-popup";
 import axios from "axios"; //for handling the requests(like get,post)
-
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 //import the components
 import { Card } from "components/Card/Card.jsx";
@@ -54,6 +54,7 @@ class Dashboard extends Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.Filter = this.Filter.bind(this);
+    this.fetchMoreData = this.fetchMoreData.bind(this);
     this.state = {
       key: "",
       value: "",
@@ -62,6 +63,7 @@ class Dashboard extends Component {
       endDate: new Date(),
       products: [],
       filters: [],
+      requests: {},
       open: -1,
     };
   }
@@ -93,6 +95,13 @@ class Dashboard extends Component {
   //"proxy": "http://localhost:8081"
   //receive the data
   componentDidMount() {
+    var requests_={};
+    requests_.filters = [];
+    requests_.skip = 0;
+    this.setState({
+      requests:requests_
+    });
+
     axios
       .get("/app")
       .then((response) => {
@@ -195,12 +204,14 @@ class Dashboard extends Component {
 
   //Apply filters
   Filter() {
-    var request_ = {};
+    let request_={};
     request_.filters = this.state.filters;
-    console.log(request_);
-    
+    request_.skip = 0;
+    this.setState({
+      requests:request_
+    })
     axios
-      .post("/app/filter", request_)
+      .post("/app/filter", this.state.requests)
       .then((response) => {
         this.setState({ products: response.data });
       })
@@ -209,6 +220,26 @@ class Dashboard extends Component {
       });
   }
 
+  //fatch more data
+  fetchMoreData(){
+    const length = this.state.products.length;
+    this.setState(prevState => ({
+      requests: {
+          ...prevState.requests,  
+          skip: length
+      }
+    }))
+    axios
+    .post("/app/filter", this.state.requests)
+    .then((response) => {
+      this.setState({
+        products: this.state.products.concat(response.data)
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
   //open a model 
   openModal(formInd) {
     formInd = Number(formInd);
@@ -390,7 +421,20 @@ class Dashboard extends Component {
         </Popup>
 
         <Grid fluid>
-          <Row>{this.productList()}</Row>
+          <Row>
+            <InfiniteScroll
+              dataLength={this.state.products.length} 
+              next={this.fetchMoreData}
+              hasMore={true}
+              endMessage={
+                <p style={{textAlign: 'center'}}>
+                  <b>Yay! You have seen it all</b>
+                </p>
+              }
+              >
+              {this.productList()}
+            </InfiniteScroll>
+          </Row>
         </Grid>
       </div>
     );

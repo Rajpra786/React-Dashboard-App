@@ -29,12 +29,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //handle get requests
 app.get("/app", function (req, res) {
   var query1 = { stock: { available: true } };
-  Query(connection, 5, res, query1);
+  Query(connection, 10,0, res, query1);
 });
 
 //handle post requests and parse the queries
 app.post("/app/filter", (req, res) => {
   filters = req.body.filters;
+  skip = Number(req.body.skip);
   var query = {};
   filters.forEach((ele) => {
     const key = String(ele.key);
@@ -97,14 +98,14 @@ app.post("/app/filter", (req, res) => {
     }
   });
 
-  Query(connection, 10, res, query);
+  Query(connection, 10,skip, res, query);
 });
 
 //send query to atlas and get response
-function Query(connection, _limit, res, query) {
+function Query(connection, _limit,skip, res, query) {
   var options = {
     limit: _limit,
-    skip: 10,
+    skip: skip,
     sort: ["price.offer_price.value", "asc"],
     projection: {
       name: 1,
