@@ -2,9 +2,12 @@
 
 ### MERN (MongoDB, Express, React, NodeJS) Stack app
 ---
-There are approximately 5K products in the data-file -- dataset [(~35 MB](https://greendeck-datasets-2.s3.amazonaws.com/netaporter_gb_similar.json)
-
+There are approximately 5K products in the data-file -- dataset [(~35 MB)](https://greendeck-datasets-2.s3.amazonaws.com/netaporter_gb_similar.json)
 ---
+
+### Screenshots
+![screenshot](images/1.png)
+![screenshot](images/2.png)
 
 ### Implemented Filters 
 
@@ -48,8 +51,9 @@ There are approximately 5K products in the data-file -- dataset [(~35 MB](https:
 ```
 ---
 ### Author
-- Rajendra Prajapat(raj.int.pra@gmail.com)
+- Rajendra Prajapat
 ---
+
 ### About the theme for frontend
 - To complete this project I used light-bootstrap-dashboard-react theme by [Creative tim](http://www.creative-tim.com/product/light-bootstrap-dashboard-react)
 

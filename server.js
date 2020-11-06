@@ -8,7 +8,7 @@ const app = express();
 const testRoutes = express.Router();
 require("dotenv").config()
 //port and URI
-const uri = process.env.Mongo_URI||"mongodb+srv://hello:zP8q1d1ohSxHamjv@mern-i2eoc.mongodb.net/products?retryWrites=true&w=majority";
+const uri = process.env.Mongo_URI;
 const PORT = process.env.PORT || 8081;
 
 app.use(cors());
