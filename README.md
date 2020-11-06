@@ -2,7 +2,7 @@
 
 ### MERN (MongoDB, Express, React, NodeJS) Stack app
 ---
-There are approximately 5K products in the data-file -- dataset [(~35 MB)](https://greendeck-datasets-2.s3.amazonaws.com/netaporter_gb_similar.json)
+There are approximately 5K products in the data-file -- dataset(~35 MB)
 ---
 
 ### Screenshots
